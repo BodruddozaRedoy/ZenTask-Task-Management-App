@@ -9,7 +9,7 @@ const MainLayout = () => {
             <div className='col-span-2 w-full bg-gray-800 h-screen overflow-auto text-white font-semibold p-10'>
                 <Sidebar/>
             </div>
-            <div className='col-span-10 w-full   lg:p-10'>
+            <div className='col-span-10 w-full lg:p-10'>
                 <Outlet/>
             </div>
         </div>

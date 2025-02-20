@@ -1,9 +1,10 @@
-import React from "react";
+import React, { use } from "react";
 import { BsFillGrid1X2Fill } from "react-icons/bs";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAuth, { googleLogin, logOut } from "../lib/authentication";
 import { MdLogout } from "react-icons/md";
+
 
 const Sidebar = () => {
   const { user, loading } = useAuth();
@@ -20,9 +21,10 @@ const Sidebar = () => {
       alert("logout")
     })
   }
-  
+
   return (
-    <div className="">
+    <div className="flex flex-col h-full justify-between">
+      <div className="">
       <h1 className="text-4xl font-black">ZenTask</h1>
       <div className="mt-5 space-y-5">
         <Link
@@ -46,6 +48,11 @@ const Sidebar = () => {
             Log Out
           </button>
         )}
+      </div>
+      </div>
+
+      <div className="">
+        <p className="font-bold text-xl">Welcome {user?.displayName}</p>
       </div>
     </div>
   );
