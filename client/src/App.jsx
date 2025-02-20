@@ -7,6 +7,7 @@ import AddTaskPage from "./pages/AddTaskPage";
 import useAuth from "./lib/authentication";
 import LoginPage from "./pages/LoginPage";
 import LoadingPage from "./pages/LoadingPage";
+import UpdateTaskPage from "./pages/UpdateTaskPage";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,7 +22,8 @@ function App() {
           <Routes>
             <Route path="/" element={<MainLayout />}>
               <Route path="/" element={user ? <HomePage /> : <LoginPage />} />
-              <Route path="/add-task" element={<AddTaskPage />} />
+              <Route path="/add-task" element={user ? <AddTaskPage /> : <LoginPage/>} />
+              <Route path="/update-task/:id" element={ user ? <UpdateTaskPage /> : <LoginPage/>} />
             </Route>
           </Routes>
         </BrowserRouter>

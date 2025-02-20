@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../lib/authentication";
 import {
@@ -11,46 +11,36 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { LiaEdit } from "react-icons/lia";
 import { ImBin } from "react-icons/im";
 import {DndContext} from '@dnd-kit/core';
+import toast from "react-hot-toast";
 
-// const todos = [
-//   {
-//     _id: 1,
-//     title: "hello buddy",
-//     description: "nobody will gonna care you",
-//     date: "10/11/2024",
-//   },
-//   {
-//     _id: 1,
-//     title: "hello buddy",
-//     description: "nobody will gonna care you",
-//     date: "10/11/2024",
-//   },
-//   {
-//     _id: 1,
-//     title: "hello buddy",
-//     description: "nobody will gonna care you",
-//     date: "10/11/2024",
-//   },
-// ];
 
 const HomePage = () => {
   const { user, loading } = useAuth();
-  console.log(user);
 
-  const { data: todos = [] } = useQuery({
+  const { data: todos = [], refetch, isLoading } = useQuery({
     queryKey: ["todos"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/users");
-      console.log(res.data);
+      const res = await axiosInstance.get(`/tasks/${user.email}`);
       return res.data;
     },
   });
+
+  
 
   const toDo = [...todos]?.filter((prev) => prev.category === "to-do");
   const inProgress = [...todos]?.filter(
     (prev) => prev.category === "in-progress"
   );
   const completed = [...todos]?.filter((prev) => prev.category === "completed");
+
+//   delete todo 
+const handleDelete = async(id) => {
+    const res = await axiosInstance.delete(`/tasks/${id}`)
+    if(res.data.acknowledged){
+        refetch()
+        toast.success("Task Deleted")
+    }
+}
   return (
     <div className="p-5 lg:p-10 rounded-xl bg-gray-800 text-white h-full overflow-hidden">
       {/* header  */}
@@ -82,7 +72,7 @@ const HomePage = () => {
       </section> */}
 
       {/* main body */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 mt-10 gap-10 items-start h-full">
+      <section className="grid grid-cols-1 md:grid-cols-3 mt-10 gap-10 items-start h-full">
         {/* to start */}
         <div className="flex flex-col gap-5">
           <div className="text-xl font-bold flex items-center gap-2">
@@ -95,7 +85,7 @@ const HomePage = () => {
                 No Task to Start
               </div>
             )}
-
+            {isLoading && <img class="w-10 h-10 mx-auto animate-spin" src="https://www.svgrepo.com/show/474682/loading.svg" alt="Loading icon"></img>}
             {toDo?.map((todo, index) => (
               <div
                 key={todo._id}
@@ -107,8 +97,8 @@ const HomePage = () => {
                 <div className="flex justify-between items-center">
                   <p className="text-gray-400 text-sm">{todo.timeStamps}</p>
                   <div className="flex gap-3 items-center">
-                  <LiaEdit className="text-2xl text-blue-500" />
-                  <ImBin className="text-xl text-red-500"/>
+                  <Link to={`/update-task/${todo._id}`} state={{todo}}><LiaEdit className="text-2xl text-blue-500 cursor-pointer" /></Link>
+                  <ImBin onClick={() => handleDelete(todo._id)} className="text-xl text-red-500 cursor-pointer"/>
                   </div>
                 </div>
               </div>
@@ -127,12 +117,19 @@ const HomePage = () => {
                 No Task in Progress
               </div>
             )}
+            {isLoading && <img class="w-10 h-10 mx-auto animate-spin" src="https://www.svgrepo.com/show/474682/loading.svg" alt="Loading icon"></img>}
             {inProgress?.map((todo, index) => (
               <div className="bg-white p-5 rounded-xl text-black">
                 <h1 className="text-xl font-bold">{todo.title}</h1>
                 <p className="text-gray-400">{todo.description}</p>
                 <hr className="text-gray-400 my-3" />
-                <p className="text-gray-400 text-sm">{todo.timeStamps}</p>
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-400 text-sm">{todo.timeStamps}</p>
+                  <div className="flex gap-3 items-center">
+                  <Link to={`/update-task/${todo._id}`} state={{todo}}><LiaEdit className="text-2xl text-blue-500 cursor-pointer" /></Link>
+                  <ImBin onClick={() => handleDelete(todo._id)} className="text-xl text-red-500 cursor-pointer"/>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -148,6 +145,7 @@ const HomePage = () => {
                 No Task Completed
               </div>
             )}
+            {isLoading && <img class="w-10 h-10 mx-auto animate-spin" src="https://www.svgrepo.com/show/474682/loading.svg" alt="Loading icon"></img>}
             {completed?.map((todo, index) => (
               <div className="bg-white p-5 rounded-xl text-black">
                 <h1 className="text-xl font-bold">{todo.title}</h1>

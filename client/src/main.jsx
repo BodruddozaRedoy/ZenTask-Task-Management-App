@@ -7,6 +7,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from '@tanstack/react-query'
+import { Toaster } from 'react-hot-toast'
 
 const queryClient = new QueryClient()
 
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
     <App />
+    <Toaster/>
     </QueryClientProvider>
   </StrictMode>,
 )
