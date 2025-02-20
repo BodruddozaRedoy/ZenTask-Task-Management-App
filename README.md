@@ -7,8 +7,8 @@ A full-stack Task Management Application built using **React, Express.js, MongoD
 
 ## 📂 Repository Structure
 ```
-├── frontend  (React + Vite.js)
-├── backend   (Express.js + MongoDB)
+├── client  (React + Vite.js)
+├── server   (Express.js + MongoDB)
 └── README.md
 ```
 
@@ -36,20 +36,20 @@ A full-stack Task Management Application built using **React, Express.js, MongoD
 ## 📌 Installation & Setup
 ### **1️⃣ Clone the Repository**
 ```sh
-git clone https://github.com/your-username/task-management-app.git
-cd task-management-app
+git clone https://github.com/BodruddozaRedoy/ZenTask-Task-Management-App.git
+cd ZenTask-Task-Management-App
 ```
 ### **2️⃣ Setup Frontend**
 ```sh
-cd frontend
+cd client
 npm install
 npm run dev
 ```
 ### **3️⃣ Setup Backend**
 ```sh
-cd backend
+cd server
 npm install
-node server.js
+node index.js
 ```
 
 ## 🎯 API Endpoints
@@ -66,7 +66,6 @@ node server.js
 - Activity Log for Task Movements 📜
 
 ## 🏆 Author
-[Your Name](https://github.com/your-username)
+[Bodruddoza Redoy](https://github.com/BodruddozaRedoy)
 
-## 📜 License
-This project is licensed under the MIT License.
+
