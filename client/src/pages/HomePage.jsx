@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../lib/authentication";
 import {
@@ -16,6 +16,9 @@ import toast from "react-hot-toast";
 
 const HomePage = () => {
   const { user, loading } = useAuth();
+  const [column, setColumn] = useState({
+    
+  })
 
   const { data: todos = [], refetch, isLoading } = useQuery({
     queryKey: ["todos"],
@@ -89,6 +92,7 @@ const handleDelete = async(id) => {
             {toDo?.map((todo, index) => (
               <div
                 key={todo._id}
+                draggable
                 className="bg-white p-5 rounded-xl text-black"
               >
                 <h1 className="text-xl font-bold">{todo.title}</h1>
@@ -119,7 +123,7 @@ const handleDelete = async(id) => {
             )}
             {isLoading && <img class="w-10 h-10 mx-auto animate-spin" src="https://www.svgrepo.com/show/474682/loading.svg" alt="Loading icon"></img>}
             {inProgress?.map((todo, index) => (
-              <div className="bg-white p-5 rounded-xl text-black">
+              <div key={index} draggable className="bg-white p-5 rounded-xl text-black">
                 <h1 className="text-xl font-bold">{todo.title}</h1>
                 <p className="text-gray-400">{todo.description}</p>
                 <hr className="text-gray-400 my-3" />
@@ -147,7 +151,7 @@ const handleDelete = async(id) => {
             )}
             {isLoading && <img class="w-10 h-10 mx-auto animate-spin" src="https://www.svgrepo.com/show/474682/loading.svg" alt="Loading icon"></img>}
             {completed?.map((todo, index) => (
-              <div className="bg-white p-5 rounded-xl text-black">
+              <div key={index} draggable className="bg-white p-5 rounded-xl text-black">
                 <h1 className="text-xl font-bold">{todo.title}</h1>
                 <p className="text-gray-400">{todo.description}</p>
                 <hr className="text-gray-400 my-3" />

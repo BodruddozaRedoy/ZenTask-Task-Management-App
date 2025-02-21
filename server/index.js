@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 
 // Mongo db
 
-const uri = process.env.MONGODB_URI_COMPASS;
+const uri = process.env.MONGODB_URI_ATLAS;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -85,6 +85,23 @@ async function run() {
             description: updatedTodo.description,
             category: updatedTodo.category,
             timeStamps: updatedTodo.timeStamps,
+          },
+        }
+      );
+      res.send(result);
+    });
+
+    app.patch("/drag-tasks/:id", async (req, res) => {
+      const updatedCategory = req.body;
+      // console.log(updatedCategory);
+      
+
+      const { id } = req.params;
+      const result = await todoCollection.updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            category: updatedCategory.category,
           },
         }
       );
